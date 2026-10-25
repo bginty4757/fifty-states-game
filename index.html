@@ -218,6 +218,9 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
         fill="white" text-anchor="middle" dominant-baseline="middle"
         pointer-events="none">AK</text>
 
+      <!-- Alaska box tap overlay (full box is tappable) -->
+      <rect x="20" y="608" width="200" height="118" rx="4" fill="transparent" pointer-events="all" class="sp" data-name="Alaska" data-proxy="state-alaska"/>
+
       <!-- Hawaii inset box -->
       <rect x="228" y="622" width="138" height="98"
         rx="4" fill="#8bbdd9" stroke="rgba(255,255,255,0.8)" stroke-width="1.5"/>
@@ -231,6 +234,9 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
         font-family="-apple-system,Arial,sans-serif" font-weight="700"
         fill="white" text-anchor="middle" dominant-baseline="middle"
         pointer-events="none">HI</text>
+
+      <!-- Hawaii box tap overlay (full box is tappable) -->
+      <rect x="228" y="622" width="138" height="98" rx="4" fill="transparent" pointer-events="all" class="sp" data-name="Hawaii" data-proxy="state-hawaii"/>
     </svg>
   </div>
 
@@ -269,6 +275,8 @@ function hitTest(cx,cy){
   var el=document.elementFromPoint(cx,cy);
   while(el&&el!==svg&&el!==document.body){
     if(el.classList&&el.classList.contains('sp')){
+      var proxy=el.getAttribute('data-proxy');
+      if(proxy){var p=document.getElementById(proxy);if(p)el=p;}
       var n=el.getAttribute('data-name');
       if(n){onTapped(el,n);return;}
     }
