@@ -12,8 +12,9 @@ html,body{
   color:#fff;-webkit-tap-highlight-color:transparent;
   overflow:hidden;position:fixed;top:0;left:0;right:0;bottom:0;
 }
-#app{display:flex;flex-direction:column;height:100%;width:100%;
-  position:fixed;top:0;left:0;right:0;bottom:0;}
+#app{display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;right:0;
+  height:100vh;height:100dvh;}
 
 /* Header */
 #header{
@@ -44,9 +45,9 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
 /* ── MAIN: flex container below header ── */
 #main{flex:1;min-height:0;display:flex;flex-direction:column;}
 
-/* ── PORTRAIT: map full width, natural height; info panel below ── */
-#map-area{flex-shrink:0;width:100%;}
-#map-svg{display:block;width:100%;height:auto;}
+/* ── PORTRAIT: map area fills all remaining height (ocean bg fills gap) ── */
+#map-area{flex:1;min-height:0;background:#a8d8ea;display:flex;flex-direction:column;align-items:stretch;}
+#map-svg{display:block;width:100%;height:auto;flex-shrink:0;}
 
 /* State paths */
 .sp{transition:opacity 0.12s,filter 0.12s;opacity:0.9;cursor:pointer;}
