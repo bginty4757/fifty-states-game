@@ -45,9 +45,9 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
 /* ── MAIN: flex container below header ── */
 #main{flex:1;min-height:0;display:flex;flex-direction:column;}
 
-/* ── PORTRAIT: map area fills all remaining height (ocean bg fills gap) ── */
-#map-area{flex:1;min-height:0;background:#a8d8ea;display:flex;flex-direction:column;align-items:stretch;}
-#map-svg{display:block;width:100%;height:auto;flex-shrink:0;}
+/* ── PORTRAIT: map area fills all remaining height, SVG scales to fill it ── */
+#map-area{flex:1;min-height:0;background:#a8d8ea;position:relative;}
+#map-svg{position:absolute;inset:0;width:100%;height:100%;display:block;}
 
 /* State paths */
 .sp{transition:opacity 0.12s,filter 0.12s;opacity:0.9;cursor:pointer;}
@@ -97,11 +97,11 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
   #main{flex-direction:row;}
   /* map: left column, fills remaining width, height-driven SVG so all 50 states visible */
   #map-area{
-    flex:1;min-height:0;display:flex;
+    flex:1;min-height:0;position:relative;display:flex;
     align-items:center;justify-content:center;
     background:#a8d8ea;
   }
-  #map-svg{width:auto;height:100%;}
+  #map-svg{position:static;width:auto;height:100%;}
   /* info panel: right column, fixed width */
   #info-panel{
     flex-shrink:0;width:200px;height:auto;
