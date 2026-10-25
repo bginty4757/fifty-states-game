@@ -7,13 +7,13 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{
-  height:100%;width:100%;background:#1a2a3a;
+  height:100%;width:100%;background:#a8d8ea;
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   color:#fff;-webkit-tap-highlight-color:transparent;
   overflow:hidden;position:fixed;top:0;left:0;right:0;bottom:0;
 }
 #app{display:flex;flex-direction:column;height:100%;width:100%;
-  position:fixed;top:0;left:0;right:0;bottom:0;}
+  position:fixed;top:0;left:0;right:0;bottom:90px;}
 
 /* Header */
 #header{
@@ -41,16 +41,12 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
 #progress-bar-wrap{flex-shrink:0;height:4px;background:#0f1f2f;display:none;}
 #progress-bar{height:100%;background:linear-gradient(90deg,#2aaa5a,#7dc8f0);width:0%;transition:width 0.4s;}
 
-/* ── PORTRAIT (default): map fills full width, natural height ─────────── */
+/* ── MAP: natural size, full width ── */
 #map-area{
-  flex-shrink:0;width:100%;background:#a8d8ea;
+  flex-shrink:0;width:100%;
 }
 #map-svg{
   display:block;width:100%;height:auto;
-}
-/* Seamless ocean spacer between map and info panel */
-#ocean-spacer{
-  flex:1;min-height:0;background:#a8d8ea;
 }
 
 /* State paths */
@@ -59,15 +55,21 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
 .sp.correct{opacity:1;stroke:white!important;stroke-width:2.5!important;}
 .sp.active-tap{filter:brightness(1.4);opacity:1;}
 
-/* Info panel */
+/* Info panel: fixed overlay at bottom, works in both orientations */
 #info-panel{
-  flex-shrink:0;height:90px;display:flex;flex-direction:column;justify-content:center;
+  position:fixed;bottom:0;left:0;right:0;
+  height:90px;z-index:10;
+  display:flex;flex-direction:column;justify-content:center;
   padding:8px 16px;padding-bottom:calc(8px + env(safe-area-inset-bottom));
-  background:#0f1f2f;border-top:2px solid #2a4a6a;text-align:center;
+  background:rgba(15,31,47,0.93);
+  border-top:2px solid rgba(42,74,106,0.8);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  text-align:center;
 }
 
-/* ── LANDSCAPE: map fills full height, info floats as overlay ─────────── */
+/* ── LANDSCAPE: height-driven map ─────────── */
 @media (orientation:landscape){
+  #app{bottom:54px;}
   #header{
     padding-top:calc(4px + env(safe-area-inset-top));
     padding-bottom:4px;
@@ -75,22 +77,20 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
   h1{font-size:14px;}
   .mode-btn{padding:5px 10px;font-size:12px;}
   #map-area{
-    flex:1;min-height:0;display:flex;
-    align-items:center;justify-content:center;
+    flex:1;min-height:0;background:#a8d8ea;
+    display:flex;align-items:center;justify-content:center;
     overflow:hidden;
   }
   #map-svg{
-    height:100%;width:auto;max-width:100%;
+    width:auto;height:100%;max-width:100%;
   }
-  #ocean-spacer{display:none;}
   #info-panel{
-    position:fixed;bottom:0;left:0;right:0;
-    height:70px;z-index:10;
-    background:rgba(15,31,47,0.92);
-    border-top:1px solid rgba(42,74,106,0.8);
-    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-    padding-bottom:calc(4px + env(safe-area-inset-bottom));
+    height:54px;
+    padding-bottom:calc(2px + env(safe-area-inset-bottom));
   }
+  #info-name{font-size:15px;margin-bottom:2px;}
+  .info-row{font-size:11px;margin-top:1px;}
+  #explore-count{margin-top:2px;}
 }
 #info-empty{color:#3a6a8a;font-size:14px;}
 #info-name{font-size:20px;font-weight:800;color:#ffe080;display:none;margin-bottom:4px;}
@@ -274,8 +274,6 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
       <rect x="228" y="622" width="138" height="98" rx="4" fill="transparent" pointer-events="all" class="sp" data-name="Hawaii" data-proxy="state-hawaii"/>
     </svg>
   </div><!-- end map-area -->
-
-  <div id="ocean-spacer"></div>
 
   <div id="info-panel">
     <div id="info-empty">Tap any state to learn about it</div>
