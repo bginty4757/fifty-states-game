@@ -275,6 +275,7 @@ var quizScore = 0;
 var quizTotal = 0;
 var foundInExplore = {};
 var tooltipTimer = null;
+var lastTouchTime = 0;
 
 // Build the SVG map
 function buildMap() {
@@ -326,6 +327,7 @@ function handleStateTap(el, evt) {
 
 function handleStateTouch(el, evt) {
   evt.preventDefault();
+  lastTouchTime = Date.now();
   handleStateTap(el, evt.changedTouches ? evt.changedTouches[0] : evt);
 }
 
@@ -376,6 +378,7 @@ function showTooltip(el, name, evt) {
 
 // Tap outside hides tooltip
 document.addEventListener('click', function() {
+  if (Date.now() - lastTouchTime < 400) return; // ignore synthetic iOS click
   document.getElementById('tooltip').style.display = 'none';
   if (activeTooltipState) { activeTooltipState.classList.remove('hovered'); activeTooltipState = null; }
 });
