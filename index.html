@@ -41,15 +41,16 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
 #progress-bar-wrap{flex-shrink:0;height:4px;background:#0f1f2f;display:none;}
 #progress-bar{height:100%;background:linear-gradient(90deg,#2aaa5a,#7dc8f0);width:0%;transition:width 0.4s;}
 
-/* Map: takes all remaining vertical space.
-   SVG is absolutely positioned to fill it with xMidYMid meet
-   (letterboxes to keep aspect ratio). Background matches ocean so
-   any letterbox padding blends in. */
+/* ── PORTRAIT (default): map fills full width, natural height ─────────── */
 #map-area{
-  flex:1;min-height:0;position:relative;background:#a8d8ea;
+  flex-shrink:0;width:100%;background:#a8d8ea;
 }
 #map-svg{
-  position:absolute;inset:0;width:100%;height:100%;display:block;
+  display:block;width:100%;height:auto;
+}
+/* Seamless ocean spacer between map and info panel */
+#ocean-spacer{
+  flex:1;min-height:0;background:#a8d8ea;
 }
 
 /* State paths */
@@ -58,11 +59,38 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
 .sp.correct{opacity:1;stroke:white!important;stroke-width:2.5!important;}
 .sp.active-tap{filter:brightness(1.4);opacity:1;}
 
-/* Info panel: takes whatever remains */
+/* Info panel */
 #info-panel{
   flex-shrink:0;height:90px;display:flex;flex-direction:column;justify-content:center;
   padding:8px 16px;padding-bottom:calc(8px + env(safe-area-inset-bottom));
   background:#0f1f2f;border-top:2px solid #2a4a6a;text-align:center;
+}
+
+/* ── LANDSCAPE: map fills full height, info floats as overlay ─────────── */
+@media (orientation:landscape){
+  #header{
+    padding-top:calc(4px + env(safe-area-inset-top));
+    padding-bottom:4px;
+  }
+  h1{font-size:14px;}
+  .mode-btn{padding:5px 10px;font-size:12px;}
+  #map-area{
+    flex:1;min-height:0;display:flex;
+    align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  #map-svg{
+    height:100%;width:auto;max-width:100%;
+  }
+  #ocean-spacer{display:none;}
+  #info-panel{
+    position:fixed;bottom:0;left:0;right:0;
+    height:70px;z-index:10;
+    background:rgba(15,31,47,0.92);
+    border-top:1px solid rgba(42,74,106,0.8);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    padding-bottom:calc(4px + env(safe-area-inset-bottom));
+  }
 }
 #info-empty{color:#3a6a8a;font-size:14px;}
 #info-name{font-size:20px;font-weight:800;color:#ffe080;display:none;margin-bottom:4px;}
@@ -245,7 +273,9 @@ h1{font-size:17px;font-weight:700;color:#7dc8f0;}
       <!-- Hawaii box tap overlay (full box is tappable) -->
       <rect x="228" y="622" width="138" height="98" rx="4" fill="transparent" pointer-events="all" class="sp" data-name="Hawaii" data-proxy="state-hawaii"/>
     </svg>
-  </div>
+  </div><!-- end map-area -->
+
+  <div id="ocean-spacer"></div>
 
   <div id="info-panel">
     <div id="info-empty">Tap any state to learn about it</div>
